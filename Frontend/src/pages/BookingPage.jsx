@@ -78,8 +78,9 @@ export default function BookingPage() {
           <BookingDates booking={booking} />
         </div>
         {/* <div className="bg-primary p-4 w-40 text-white rounded-2xl">
-          <div>Total price</div>
-          <div className="text-3xl">${booking.price}</div>
+          <div>Total price</div> 
+          
+          <div className="text-3xl"> ${booking.price}</div>
         </div> */}
         <div
           onClick={() => handlePayment(booking.price)}
