@@ -13,7 +13,9 @@ const fs = require('fs');
 const mime = require('mime-types');
 const cloudinary = require('cloudinary').v2;
 
-require('dotenv').config();
+const dotenv = require('dotenv');
+
+dotenv.config();
 const app = express();
 const PORT = 8000
 const bcryptSalt = bcrypt.genSaltSync(10);
@@ -87,12 +89,10 @@ app.post('/api/upload', photosMiddleware.array('photos', 100), async (req, res) 
 
 
 app.get('/api/test', (req, res) => {
-  mongoose.connect(process.env.MONGO_URL);
   res.json('test ok');
 });
 
 app.post('/api/register', async (req, res) => {
-  mongoose.connect(process.env.MONGO_URL);
   const { name, email, password } = req.body;
 
   try {
@@ -109,7 +109,6 @@ app.post('/api/register', async (req, res) => {
 });
 
 app.post('/api/login', async (req, res) => {
-  mongoose.connect(process.env.MONGO_URL);
   const { email, password } = req.body;
   const userDoc = await User.findOne({ email });
   if (userDoc) {
@@ -130,7 +129,7 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-app.get('/api/profile', (req, res) => { 
+app.get('/api/profile', (req, res) => {
   const { token } = req.cookies;
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -148,9 +147,9 @@ app.post('/api/logout', (req, res) => {
 });
 
 
- 
 
-app.post('/api/places', (req, res) => { 
+
+app.post('/api/places', (req, res) => {
   const { token } = req.cookies;
   const {
     title, address, addedPhotos, description, price,
@@ -167,7 +166,7 @@ app.post('/api/places', (req, res) => {
   });
 });
 
-app.get('/api/user-places', (req, res) => { 
+app.get('/api/user-places', (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     const { id } = userData;
@@ -175,12 +174,91 @@ app.get('/api/user-places', (req, res) => {
   });
 });
 
-app.get('/api/places/:id', async (req, res) => { 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.post('/api/user-places/:placeId', async (req, res) => {
+  const placeId = req.params.placeId;
+  const ownerIdFromBody = req.body.owner;
+
+  try {
+    // Find the place by ID
+    const place = await Place.findById(placeId);
+
+    if (!place) {
+      return res.status(404).json({ error: 'Place not found' });
+    }
+
+    // console.log(place.owner);
+
+    // Check if the owner ID from the request body matches the owner of the place
+    if (ownerIdFromBody == place.owner.toString()) {
+      // If it matches, proceed with deletion
+      const deletedPlaceResponse = await Place.findByIdAndDelete(placeId);
+      return res.status(200).json({ success: 'Place deleted successfully' });
+    } else {
+      // If the owner IDs do not match, return an error
+      return res.status(403).json({ error: 'Unauthorized: Owner mismatch' });
+    }
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.get('/api/places/:id', async (req, res) => {
   const { id } = req.params;
   res.json(await Place.findById(id));
 });
 
-app.put('/api/places', async (req, res) => { 
+app.put('/api/places', async (req, res) => {
   const { token } = req.cookies;
   const {
     id, title, address, addedPhotos, description,
@@ -200,11 +278,11 @@ app.put('/api/places', async (req, res) => {
   });
 });
 
-app.get('/api/places', async (req, res) => { 
+app.get('/api/places', async (req, res) => {
   res.json(await Place.find());
 });
 
-app.post('/api/bookings', async (req, res) => { 
+app.post('/api/bookings', async (req, res) => {
   const userData = await getUserDataFromReq(req);
   const {
     place, checkIn, checkOut, numberOfGuests, name, phone, price,
@@ -221,7 +299,7 @@ app.post('/api/bookings', async (req, res) => {
 
 
 
-app.get('/api/bookings', async (req, res) => { 
+app.get('/api/bookings', async (req, res) => {
   const userData = await getUserDataFromReq(req);
   res.json(await Booking.find({ user: userData.id }).populate('place'));
 });
