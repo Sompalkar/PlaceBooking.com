@@ -19,12 +19,10 @@ dotenv.config();
 const app = express();
 const PORT = 8000;
 const bcryptSalt = bcrypt.genSaltSync(10);
-const jwtSecret = process.env.JWT_SECRET || 'your_default_secret';
+const jwtSecret = process.env.JWT_SECRET;
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URL, {
-    ssl: true, 
-}).then(() => {
+mongoose.connect(process.env.MONGO_URL).then(() => {
 
     console.log(" Database Connected....")
 })
@@ -45,7 +43,7 @@ const __dirname = dirname(__filename);
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(cors({
     credentials: true,
-    origin: "https://place-booking.vercel.app"
+    origin: "https://place-booking.vercel.app/"
 }));
 
 // Middleware to get user data from the request
