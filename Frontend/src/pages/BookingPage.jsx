@@ -84,7 +84,7 @@ export default function BookingPage() {
         </div> */}
         <div
           onClick={() => handlePayment(booking.price)}
-          className="bg-primary p-4 w-40 text-white rounded-2xl"
+          className="bg-primary p-4 w-40 text-white rounded-2xl cursor-pointer"
         >
           <div> Pay Now </div>
           <div className="text-3xl">${booking.price}</div>

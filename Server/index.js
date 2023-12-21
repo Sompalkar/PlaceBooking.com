@@ -19,7 +19,7 @@ dotenv.config();
 const app = express();
 const PORT = 8000;
 const bcryptSalt = bcrypt.genSaltSync(10);
-const jwtSecret = process.env.JWT_SECRET;
+const jwtSecret = process.env.JWT_SECRET || 'your_default_secret';
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URL).then(() => {
@@ -43,7 +43,7 @@ const __dirname = dirname(__filename);
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(cors({
     credentials: true,
-    origin: "https://place-booking.vercel.app"
+    origin: 'http://localhost:5173',
 }));
 
 // Middleware to get user data from the request
@@ -139,7 +139,7 @@ app.get('/api/profile', (req, res) => {
     if (token) {
         jwt.verify(token, jwtSecret, {}, async (err, userData) => {
             if (err) throw err;
-            const { email, name, _id } = await User.findById(userData.id);
+            const { name, email, _id } = await User.findById(userData.id);
             res.json({ name, email, _id });
         });
     } else {
