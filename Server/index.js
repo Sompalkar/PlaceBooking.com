@@ -23,7 +23,7 @@ const jwtSecret = process.env.JWT_SECRET || 'your_default_secret';
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URL, {
-   
+
     useUnifiedTopology: true,
     ssl: true,
 }).then(() => {
@@ -47,7 +47,7 @@ const __dirname = dirname(__filename);
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(cors({
     credentials: true,
-    origin: 'http://localhost:5173',
+    origin: 'https://place-booking.vercel.app',
 }));
 
 // Middleware to get user data from the request
