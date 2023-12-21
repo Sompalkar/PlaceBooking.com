@@ -98,10 +98,7 @@ export default function BookingWidget({ place }) {
         Book this place
         {numberOfNights > 0 && <span> ${numberOfNights * place.price}</span>}
       </button>
-      <button   className="primary mt-4">
-        Book this place
-         
-      </button>
+      
     </div>
   );
 }

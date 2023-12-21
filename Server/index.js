@@ -24,6 +24,7 @@ const jwtSecret = process.env.JWT_SECRET || 'your_default_secret';
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URL, {
     ssl: true,
+    serverSelectionTimeoutMS: 5000,
 }).then(() => {
 
     console.log(" Database Connected....")
