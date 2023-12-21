@@ -23,7 +23,7 @@ const jwtSecret = process.env.JWT_SECRET || 'your_default_secret';
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
+
     useUnifiedTopology: true,
     ssl: true,
 }).then(() => {
