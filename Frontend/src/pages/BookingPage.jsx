@@ -72,8 +72,8 @@ export default function BookingPage() {
     <div className="my-8">
       <h1 className="text-3xl">{booking.place.title}</h1>
       <AddressLink className="my-2 block">{booking.place.address}</AddressLink>
-      <div className="bg-gray-200 p-6 my-6 rounded-2xl flex items-center justify-between">
-        <div>
+      <div className="bg-gray-200 p-6 my-6 rounded-2xl flex flex-col  w-full md:flex-row items-center justify-between gap-8">
+        <div className="flex flex-col gap-1 w-full  ">
           <h2 className="text-2xl mb-4">Your booking information:</h2>
           <BookingDates booking={booking} />
         </div>
@@ -84,7 +84,7 @@ export default function BookingPage() {
         </div> */}
         <div
           onClick={() => handlePayment(booking.price)}
-          className="bg-primary p-4 w-40 text-white rounded-2xl cursor-pointer"
+            className="bg-primary p-4 w-full  sm:w-40 text-center text-white rounded-2xl cursor-pointer"
         >
           <div> Pay Now </div>
           <div className="text-3xl">${booking.price}</div>

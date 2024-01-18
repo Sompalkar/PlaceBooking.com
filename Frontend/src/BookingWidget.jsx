@@ -62,7 +62,7 @@ export default function BookingWidget({ place }) {
         Price: ₹ {place.price} / per night
       </div>
       <div className="border rounded-2xl mt-4">
-        <div className="flex">
+        <div className="flex  flex-col sm:flex-row">
           <div className="py-3 px-4">
             <label>Check in:</label>
             <input
@@ -71,7 +71,7 @@ export default function BookingWidget({ place }) {
               onChange={(ev) => setCheckIn(ev.target.value)}
             />
           </div>
-          <div className="py-3 px-4 border-l">
+          <div className="py-3 px-4 border-l border-t-2  sm:border-none ">
             <label>Check out:</label>
             <input
               type="date"
