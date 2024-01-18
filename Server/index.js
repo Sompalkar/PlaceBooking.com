@@ -45,7 +45,7 @@ const __dirname = dirname(__filename);
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(cors({
     credentials: true,
-    origin: 'http://localhost:5173',
+    origin: 'https://place-booking.vercel.app',
 }));
 
 // Middleware to get user data from the request
@@ -491,4 +491,5 @@ app.use('/api/verify', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server Is Running on Port: http://localhost:${PORT} `)
+    console.log(`Server Is Running on Port: https://placebooking-com.onrender.com/test `)
 });
