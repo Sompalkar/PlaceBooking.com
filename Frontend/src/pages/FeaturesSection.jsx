@@ -4,8 +4,8 @@ import { FaRegCalendarCheck, FaGlobe, FaFilter } from "react-icons/fa";
 const FeaturesSection = () => {
   return (
     <div className="bg-white py-16">
-      <div className="flex flex-row items-center justify-center gap-16 ">
-        {/* Feature 1 */}
+      <div className=" md:flex gap-24">
+       
         <div className="mb-12">
           <img
             src="https://a0.muscache.com/im/pictures/7c7ccb34-a563-4f25-9fba-e4a46e2dbc3a.jpg?im_w=720"
@@ -22,8 +22,7 @@ const FeaturesSection = () => {
             </p>
           
         </div>
-
-        {/* Feature 2 */}
+ 
         <div className="mb-12 ">
           <img
             src="https://a0.muscache.com/im/pictures/d51be571-b8cf-4379-8d3f-7c5e56c9def5.jpg?im_w=720"
@@ -40,8 +39,7 @@ const FeaturesSection = () => {
             </p>
          
         </div>
-
-        {/* Feature 3 */}
+ 
         <div>
           <img
             src="https://a0.muscache.com/im/pictures/a52e81a9-e390-4e74-b197-1aeeffd0e5ab.jpg?im_w=720"

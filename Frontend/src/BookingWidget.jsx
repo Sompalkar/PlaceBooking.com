@@ -28,6 +28,17 @@ export default function BookingWidget({ place }) {
   }
 
   async function bookThisPlace() {
+    if (!user) { 
+      alert("Please login to book the holiday stay.");
+      return;
+    }
+
+    if (numberOfGuests <= 0) { 
+      alert("Number of guests should be greater than 0.");
+      return;
+    }
+
+    // Proceed with booking logic
     const response = await axios.post("/bookings", {
       checkIn,
       checkOut,
@@ -94,11 +105,14 @@ export default function BookingWidget({ place }) {
           </div>
         )}
       </div>
-      <button onClick={bookThisPlace} className="primary mt-4">
-        Book this place
+      <button
+        onClick={bookThisPlace}
+        className={`primary mt-4 ${!user || numberOfGuests <= 0 ? "disabled" : ""}`}
+        
+      >
+        {user ? "Book this place" : "Please login to book Property"}
         {numberOfNights > 0 && <span> ${numberOfNights * place.price}</span>}
       </button>
-      
     </div>
   );
 }

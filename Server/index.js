@@ -14,6 +14,8 @@ import Place from './models/Place.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import crypto from "crypto";
+import imageDownloader from 'image-downloader'
+import mime from 'mime'
 dotenv.config();
 
 const app = express();
@@ -43,16 +45,27 @@ const __dirname = dirname(__filename);
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(cors({
     credentials: true,
-    origin: 'https://place-booking.vercel.app',
+    origin: 'http://localhost:5173',
 }));
 
 // Middleware to get user data from the request
 async function getUserDataFromReq(req) {
+
+
     return new Promise((resolve, reject) => {
-        jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
-            if (err) reject(err);
-            resolve(userData);
-        });
+
+        try {
+
+            jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
+                if (err) reject(err);
+                resolve(userData);
+            });
+        } catch (error) {
+
+            console.log(error)
+            throw new Error(error);
+
+        }
     });
 }
 
@@ -69,27 +82,111 @@ async function uploadToCloudinary(path, originalFilename) {
 
 // Routes...
 
+// app.post('/api/upload-by-link', async (req, res) => {
+//     const { link } = req.body;
+//     console.log(req.body)
+//     const newName = 'photo' + Date.now() + '.jpg';
+//       imageDownloader.image({
+//         url: link,
+//         dest: '/tmp/' + newName,
+//     });
+//     const url = await uploadToCloudinary('/tmp/' + newName, newName, mime.lookup('/tmp/' + newName));
+//     res.json(url);
+// });
+
+// app.post('/api/upload-by-link', async (req, res) => {
+//     const { link } = req.body;
+//     // console.log(req.body);
+
+//     if (!link) {
+//         return res.status(400).json({ error: 'Missing link in the request body' });
+//     }
+
+//     const newName = 'photo' + Date.now() + '.jpg';
+
+//     try {
+//         await imageDownloader.image({
+//             url: link,
+//             dest: '/tmp/' + newName,
+//         });
+
+//         const url = await uploadToCloudinary('/tmp/' + newName, newName, mime.lookup('/tmp/' + newName));
+
+//         console.log(url)
+//         res.json(url);
+
+//     } catch (error) {
+//         console.error('Error:', error);
+//         res.status(500).json({ error: 'Internal Server Error' });
+//     }
+// });
+
+
+
 app.post('/api/upload-by-link', async (req, res) => {
     const { link } = req.body;
+
+    if (!link) {
+        return res.status(400).json({ error: 'Missing link in the request body' });
+    }
+
     const newName = 'photo' + Date.now() + '.jpg';
-    await imageDownloader.image({
-        url: link,
-        dest: '/tmp/' + newName,
-    });
-    const url = await uploadToCloudinary('/tmp/' + newName, newName, mime.lookup('/tmp/' + newName));
-    res.json(url);
+
+    try {
+        const { filename, image } = await imageDownloader.image({
+            url: link,
+            dest: '/tmp/' + newName,
+        });
+
+        const url = await uploadToCloudinary(filename, newName);
+
+        console.log(url);
+        res.json(url);
+
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
 const photosMiddleware = multer({ dest: '/tmp' });
-app.post('/api/upload', photosMiddleware.array('photos', 100), async (req, res) => {
-    const uploadedFiles = [];
-    for (let i = 0; i < req.files.length; i++) {
-        const { path, originalname, mimetype } = req.files[i];
-        const url = await uploadToCloudinary(path, originalname, mimetype);
-        uploadedFiles.push(url);
-    }
-    res.json(uploadedFiles);
-});
+
+app.post('/api/upload', photosMiddleware.array('photos', 100),
+
+    async (req, res) => {
+
+        // console.log(req.files)
+
+        const uploadedFiles = [];
+
+        for (let i = 0; i < req.files.length; i++) {
+
+            const { path, originalname, mimetype } = req.files[i];
+
+            const url = await uploadToCloudinary(path, originalname, mimetype);
+
+
+            console.log(url)
+            uploadedFiles.push(url);
+
+
+        }
+
+        res.json(uploadedFiles);
+
+    });
 
 
 
@@ -269,18 +366,25 @@ app.put('/api/places', async (req, res) => {
         id, title, address, addedPhotos, description,
         perks, extraInfo, checkIn, checkOut, maxGuests, price,
     } = req.body;
-    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-        if (err) throw err;
-        const placeDoc = await Place.findById(id);
-        if (userData.id === placeDoc.owner.toString()) {
-            placeDoc.set({
-                title, address, photos: addedPhotos, description,
-                perks, extraInfo, checkIn, checkOut, maxGuests, price,
-            });
-            await placeDoc.save();
-            res.json('ok');
-        }
-    });
+    try {
+        jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+            if (err) throw err;
+            const placeDoc = await Place.findById(id);
+            if (userData.id === placeDoc.owner.toString()) {
+                placeDoc.set({
+                    title, address, photos: addedPhotos, description,
+                    perks, extraInfo, checkIn, checkOut, maxGuests, price,
+                });
+                await placeDoc.save();
+                res.json('ok');
+            }
+        });
+    } catch (error) {
+        console.log(error);
+
+        throw new Error(error);
+
+    }
 });
 
 app.get('/api/places', async (req, res) => {

@@ -9,7 +9,7 @@ export default function Layout() {
         <Header />
         <Outlet />
       </div>
-      <div className="sticky bottom-0">
+      <div className=" ">
         <Footer />
       </div>
     </>

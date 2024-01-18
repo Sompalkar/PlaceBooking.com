@@ -47,24 +47,24 @@ export default function PlacesPage() {
           Add new place
         </Link>
       </div>
-      <div className="mt-16 md:flex-col  h-72">
+      <div className="mt-16    min-h-72 bg-slate-200   rounded-xl">
         {places.length > 0 &&
           places.map((place) => (
             <div
               key={place._id}
-              className="flex cursor-pointer gap-8 mb-12 md:flex-row sm:flex-col bg-gray-100 p-4 justify-between rounded-2xl"
+              className=" flex flex-col  "
             >
-              <div className=" flex flex-row gap-8">
-                <div className="flex w-52 h-44 object-contain  max-w-[220px]  bg-gray-300 grow shrink-0 md:align-middle">
+              <div className=" flex   flex-col sm:flex-row gap-8  border-b-2 p-2 border-gray-300 ">
+                <div className="flex   md:w-52 md:h-44 object-contain  sm:w-full    bg-gray-300 grow shrink-0 md:align-middle">
                   <PlaceImg place={place} />
                 </div>
 
-                <div className="grow-0 shrink  ">
+                <div className="grow-0 shrink pt-2 ">
                   <h2 className="text-xl">{place.title}</h2>
                   <p className="text-sm mt-2">{place.description}</p>
                 </div>
               </div>
-              <div className=" flex flex-col justify-between ">
+              <div className=" flex justify-around mt-4  ">
                 <Link to={"/account/places/" + place._id}>
                   <FiEdit3 size={"30px"} />
                 </Link>
