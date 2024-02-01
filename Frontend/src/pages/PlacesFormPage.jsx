@@ -116,7 +116,7 @@ export default function PlacesFormPage() {
           </div>
           <div>
             <h3 className="mt-2 -mb-1">Max number of guests</h3>
-            <input type="number" value={maxGuests}
+            <input type="number" value={maxGuests} min="0" 
                    onChange={ev => setMaxGuests(ev.target.value)}/>
           </div>
           <div>
