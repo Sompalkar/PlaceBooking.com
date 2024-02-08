@@ -1,19 +1,21 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
-import {BrowserRouter} from "react-router-dom";
+import React, { useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import './index.css';
+import { BrowserRouter } from 'react-router-dom';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>,
-)
+const Root = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0); 
+  }, []); 
 
+  return (
+    <React.StrictMode>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </React.StrictMode>
+  );
+};
 
-
-window.addEventListener('load', function() {
-    window.scrollTo(0, 0);
-});
+ReactDOM.createRoot(document.getElementById('root')).render(<Root />);
