@@ -11,3 +11,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </BrowserRouter>
   </React.StrictMode>,
 )
+
+
+
+window.addEventListener('load', function() {
+    window.scrollTo(0, 0);
+});
