@@ -121,8 +121,18 @@ export default function PlacesFormPage() {
           </div>
           <div>
             <h3 className="mt-2 -mb-1">Price per night</h3>
-            <input type="number" value={price}
-                   onChange={ev => setPrice(ev.target.value)}/>
+           <input 
+                type="number" 
+                value={maxGuests} 
+                min="0" 
+                onChange={ev => {
+                  const newValue = parseInt(ev.target.value);
+                            if (!isNaN(newValue) && newValue >= 0) {
+                              setMaxGuests(newValue);
+                            }
+                      }}
+          />
+
           </div>
         </div>
         <button className="primary my-4">Save</button>
