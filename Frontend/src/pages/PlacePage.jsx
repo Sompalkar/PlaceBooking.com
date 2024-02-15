@@ -8,6 +8,14 @@ import AddressLink from "../AddressLink";
 export default function PlacePage() {
   const {id} = useParams();
   const [place,setPlace] = useState(null);
+  
+  useEffect(()=>{
+      window.scrollTo({
+      top: 0,
+      behavior: 'smooth'});
+    
+  },[]);
+  
   useEffect(() => {
     if (!id) {
       return;
