@@ -18,7 +18,6 @@ export default function PlacesFormPage() {
   const [maxGuests,setMaxGuests] = useState(1);
   const [price,setPrice] = useState(100);
   const [redirect,setRedirect] = useState(false);
-  const [guestNumber,setguestNumber]=useState(1);
   useEffect(() => {
     if (!id) {
       return;
@@ -122,16 +121,17 @@ export default function PlacesFormPage() {
           </div>
           <div>
             <h3 className="mt-2 -mb-1">Price per night</h3>
-          <input  type="number" 
-                  value={guestNumber} 
-                  onChange={ev => {
-                    const newValue = parseInt(ev.target.value);
-                    if (!isNaN(newValue) && newValue >= 0) {
-                      setguestNumber(newValue);
-                    }
-           }}
-/>
-
+           <input 
+                type="number" 
+                value={maxGuests} 
+                min="0" 
+                onChange={ev => {
+                  const newValue = parseInt(ev.target.value);
+                            if (!isNaN(newValue) && newValue >= 0) {
+                              setMaxGuests(newValue);
+                            }
+                      }}
+          />
 
           </div>
         </div>
