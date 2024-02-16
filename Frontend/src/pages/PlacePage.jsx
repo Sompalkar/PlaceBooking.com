@@ -9,12 +9,14 @@ export default function PlacePage() {
   const {id} = useParams();
   const [place,setPlace] = useState(null);
   
-  useEffect(()=>{
-      window.scrollTo({
-      top: 0,
-      behavior: 'smooth'});
-    
-  },[]);
+  
+  useEffect(() => {
+    window.scrollTo({
+        top: 70,
+        behavior: 'smooth'
+    });
+}, []);
+
   
   useEffect(() => {
     if (!id) {
