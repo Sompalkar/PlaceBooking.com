@@ -85,7 +85,7 @@ export default function BookingWidget({ place }) {
           <input
             type="number"
             value={numberOfGuests}
-            min="0"
+            min="1"
             max={place.maxGuests}
             onChange={(ev) => setNumberOfGuests(ev.target.value)}
           />
