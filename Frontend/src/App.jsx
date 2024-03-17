@@ -15,6 +15,7 @@ import BookingPage from "./pages/BookingPage";
 
 axios.defaults.baseURL = "https://placebooking-com.onrender.com/api";
 axios.defaults.withCredentials = true;
+
 // https://placebooking-com.onrender.com
 function App() {
   return (

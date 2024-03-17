@@ -19,7 +19,7 @@ import mime from 'mime'
 dotenv.config();
 
 const app = express();
-const PORT = 8000;
+const PORT = 6000;
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = process.env.JWT_SECRET || 'your_default_secret';
 
@@ -45,8 +45,7 @@ const __dirname = dirname(__filename);
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(cors({
     credentials: true,
-    origin: ['http://localhost:5137',
-        'https://place-booking.vercel.app']
+    origin:'https://place-booking.vercel.app',
 }));
 
 //https://place-booking.vercel.app
@@ -64,10 +63,8 @@ async function getUserDataFromReq(req) {
                 resolve(userData);
             });
         } catch (error) {
-
             console.log(error)
             throw new Error(error);
-
         }
     });
 }
@@ -224,7 +221,7 @@ app.post('/api/login', async (req, res) => {
                 id: userDoc._id
             }, jwtSecret, {}, (err, token) => {
                 if (err) throw err;
-                res.cookie('token', token).json(userDoc);
+                res.cookie('token',token,{sameSite:'none',secure: true}).json(userDoc);
             });
         } else {
             res.status(422).json('pass not ok');
@@ -292,17 +289,13 @@ app.post('/api/user-places/:placeId', async (req, res) => {
 
         if (!place) {
             return res.status(404).json({ error: 'Place not found' });
-        }
+        } 
+        if (ownerIdFromBody == place.owner.toString()) { 
 
-        // console.log(place.owner);
-
-        // Check if the owner ID from the request body matches the owner of the place
-        if (ownerIdFromBody == place.owner.toString()) {
-            // If it matches, proceed with deletion
             const deletedPlaceResponse = await Place.findByIdAndDelete(placeId);
             return res.status(200).json({ success: 'Place deleted successfully' });
         } else {
-            // If the owner IDs do not match, return an error
+            
             return res.status(403).json({ error: 'Unauthorized: Owner mismatch' });
         }
 
