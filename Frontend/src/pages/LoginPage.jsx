@@ -4,8 +4,8 @@ import axios from "axios";
 import {UserContext} from "../UserContext.jsx";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('testuser@gmail.com');
+  const [password, setPassword] = useState('testuser');
   const [redirect, setRedirect] = useState(false);
   const {setUser} = useContext(UserContext);
   async function handleLoginSubmit(ev) {
