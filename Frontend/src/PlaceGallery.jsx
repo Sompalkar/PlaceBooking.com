@@ -4,41 +4,127 @@ import Image from "./Image.jsx";
 export default function PlaceGallery({ place }) {
   const [showAllPhotos, setShowAllPhotos] = useState(false);
 
+  // if (showAllPhotos) {
+  //   return (
+  //     <div className="absolute inset-0 bg-black text-white min-h-screen  ">
+  //       <div className=" pt-6 pl-6">
+  //         <h2 className="text-3xl  ">Photos of {place.title}</h2>
+  //         <button
+  //           onClick={() => setShowAllPhotos(false)}
+  //           className="fixed right-12 top-8 flex gap-1 py-2 px-4 rounded-2xl shadow shadow-black bg-white text-black"
+  //         >
+  //           <svg
+  //             xmlns="http://www.w3.org/2000/svg"
+  //             viewBox="0 0 24 24"
+  //             fill="currentColor"
+  //             className="w-6 h-6"
+  //           >
+  //             <path
+  //               fillRule="evenodd"
+  //               d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+  //               clipRule="evenodd"
+  //             />
+  //           </svg>
+  //           Close photos
+  //         </button>
+  //       </div>
+  //       <div className="bg-black p-8 flex w-full overflow-x-scroll gap ">
+  //         {place?.photos?.length > 0 &&
+  //           place.photos.map((photo, index) => (
+  //             <div
+  //               key={photo}
+  //               className="w-[600px] h-[800px] flex  flex-row flex-1"
+  //             >
+  //               <Image
+  //                 className=" w-[900px] object-cover "
+  //                 src={photo}
+  //                 alt={`Image${index}`}
+  //               />
+  //             </div>
+  //           ))}
+  //       </div>
+  //     </div>
+  //   );
+  // }
   if (showAllPhotos) {
     return (
-      <div className="absolute inset-0 bg-black text-white min-h-screen overflow-scroll">
-        <div className="bg-black p-8 grid gap-4">
-          <div>
-            <h2 className="text-3xl mr-48">Photos of {place.title}</h2>
-            <button
-              onClick={() => setShowAllPhotos(false)}
-              className="fixed right-12 top-8 flex gap-1 py-2 px-4 rounded-2xl shadow shadow-black bg-white text-black"
+      <div className="absolute inset-0  mt-36 bg-black  text-white h-[600px]   rounded-2xl    m-2 ">
+        <div className=" w-[100%] text-white   pt-6 pl-6">
+          <h2 className="text-3xl">Photos of {place.title}</h2>
+          <button
+            onClick={() => setShowAllPhotos(false)}
+            className="fixed right-12 top-16 flex gap-1 py-2 px-4 rounded-2xl shadow shadow-black bg-white text-black"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-6 h-6"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              Close photos
-            </button>
-          </div>
+              <path
+                fillRule="evenodd"
+                d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Close photos
+          </button>
+        </div>
+        <div className="bg-black p-8 mt-4  flex flex-col scrollbar-hide rounded-2xl gap-4 md:w-full md:overflow-x-auto md:flex-row overflow-auto h-[500px]   md:h-[600px]   ">
           {place?.photos?.length > 0 &&
-            place.photos.map((photo) => (
-              <div key={photo} >
-                <Image src={photo} alt="" />
+            place.photos.map((photo, index) => (
+              <div key={index} className="flex-none mt-4">
+                <Image
+                  className="  object-cover md:object-fill h-[500px] w-[450px] md:w-[700px] mt-4  rounded-lg "
+                  src={photo}
+                  alt={`Image${index}`}
+                />
               </div>
             ))}
         </div>
       </div>
     );
   }
+
+  // if (showAllPhotos) {
+  //   return (
+  //     <div className="absolute inset-0 bg-black text-white mt-20 rounded-2xl mx-20">
+  //       <div className="pt-6 pl-6">
+  //         <h2 className="text-3xl">Photos of {place.title}</h2>
+  //         <button
+  //           onClick={() => setShowAllPhotos(false)}
+  //           className="fixed right-12 top-8 flex gap-1 py-2 px-4 rounded-2xl shadow shadow-black bg-white text-black"
+  //         >
+  //           <svg
+  //             xmlns="http://www.w3.org/2000/svg"
+  //             viewBox="0 0 24 24"
+  //             fill="currentColor"
+  //             className="w-6 h-6"
+  //           >
+  //             <path
+  //               fillRule="evenodd"
+  //               d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+  //               clipRule="evenodd"
+  //             />
+  //           </svg>
+  //           Close photos
+  //         </button>
+  //       </div>
+  //       <div className="bg-black p-8 flex flex-col items-center overflow-y-auto">
+  //         {place?.photos?.length > 0 &&
+  //           place.photos.map((photo, index) => (
+  //             <div key={index} className="flex-none mb-4 w-full">
+  //               <Image
+  //                 className="object-cover w-full"
+  //                 src={photo}
+  //                 alt={`Image${index}`}
+  //               />
+  //             </div>
+  //           ))}
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="relative">

@@ -279,31 +279,6 @@ app.get('/api/user-places', (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.post('/api/user-places/:placeId', async (req, res) => {
     const placeId = req.params.placeId;
     const ownerIdFromBody = req.body.owner;
@@ -387,9 +362,94 @@ app.put('/api/places', async (req, res) => {
     }
 });
 
+// app.get('/api/places', async (req, res) => {
+//     res.json(await Place.find());
+// });
+
+
+
+// app.get('/api/places', async (req, res) => {
+//     try {
+//         const result = await Place.find();
+
+//         if (result.length > 0) {
+//             const modifiedResult = result.map(place => ({
+//                 _id: place._id,
+//                 owner: place.owner,
+//                 title: place.title,
+//                 address: place.address,
+//                 photos: place.photos.slice(0, 3), // Only first 3 photos
+//                 description: place.description,
+//                 perks: place.perks,
+//                 extraInfo: place.extraInfo,
+//                 checkIn: place.checkIn,
+//                 checkOut: place.checkOut,
+//                 maxGuests: place.maxGuests,
+//                 price: place.price,
+//                 __v: place.__v
+//             }));
+//             res.json(modifiedResult);
+//         } else {
+//             res.status(404).json({ message: "No places found" });
+//         }
+//     } catch (error) {
+//         console.error("Error fetching places:", error);
+//         res.status(500).json({ error: "Internal Server Error" });
+//     }
+// });
+
+
+
+
+
+
 app.get('/api/places', async (req, res) => {
-    res.json(await Place.find());
+    try {
+        const result = await Place.find();
+
+        if (result.length > 0) {
+            const modifiedResult = result.map(place => ({
+                _id: place._id,
+                owner: place.owner,
+                title: place.title,
+                address: place.address,
+                photos: place.photos.slice(0, 3), // Only first 3 photos
+                description: place.description,
+                perks: place.perks,
+                extraInfo: place.extraInfo,
+                checkIn: place.checkIn,
+                checkOut: place.checkOut,
+                maxGuests: place.maxGuests,
+                price: place.price,
+                __v: place.__v
+            }));
+
+            // Add a delay of 5 seconds before sending the response
+
+            res.json(modifiedResult);
+
+        } else {
+            res.status(404).json({ message: "No places found" });
+        }
+    } catch (error) {
+        console.error("Error fetching places:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.post('/api/bookings', async (req, res) => {
     const userData = await getUserDataFromReq(req);
@@ -491,5 +551,5 @@ app.use('/api/verify', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server Is Running on Port: http://localhost:${PORT} `)
-    console.log(`Server Is Running on Port: https://placebooking-com.onrender.com/test `)
+    // console.log(`Server Is Running on Port: https://placebooking-com.onrender.com/test `)
 });

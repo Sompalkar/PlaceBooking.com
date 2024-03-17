@@ -47,15 +47,12 @@ export default function PlacesPage() {
           Add new place
         </Link>
       </div>
-      <div className="mt-16    min-h-72 bg-slate-200   rounded-xl">
+      <div className="mt-16 min-h-72 bg-slate-200 rounded-xl">
         {places.length > 0 &&
           places.map((place) => (
-            <div
-              key={place._id}
-              className=" flex flex-col  "
-            >
-              <div className=" flex   flex-col sm:flex-row gap-8  border-b-2 p-2 border-gray-300 ">
-                <div className="flex   md:w-52 md:h-44 object-contain  sm:w-full    bg-gray-300 grow shrink-0 md:align-middle">
+            <div key={place._id} className="flex flex-col">
+              <div className=" flex flex-col sm:flex-row gap-8 border-b-2 p-2 border-gray-300 ">
+                <div className="flex md:w-52 md:h-44 object-contain sm:w-full bg-gray-300 grow shrink-0 md:align-middle">
                   <PlaceImg place={place} />
                 </div>
 
@@ -64,7 +61,7 @@ export default function PlacesPage() {
                   <p className="text-sm mt-2">{place.description}</p>
                 </div>
               </div>
-              <div className=" flex justify-around mt-4  ">
+              <div className="flex justify-around mt-4">
                 <Link to={"/account/places/" + place._id}>
                   <FiEdit3 size={"30px"} />
                 </Link>

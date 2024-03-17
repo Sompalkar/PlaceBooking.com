@@ -69,6 +69,7 @@ export default function BookingWidget({ place }) {
               type="date"
               value={checkIn}
               onChange={(ev) => setCheckIn(ev.target.value)}
+              required
             />
           </div>
           <div className="py-3 px-4 border-l border-t-2  sm:border-none ">
@@ -77,6 +78,7 @@ export default function BookingWidget({ place }) {
               type="date"
               value={checkOut}
               onChange={(ev) => setCheckOut(ev.target.value)}
+              required
             />
           </div>
         </div>
@@ -88,6 +90,7 @@ export default function BookingWidget({ place }) {
             min="1"
             max={place.maxGuests}
             onChange={(ev) => setNumberOfGuests(ev.target.value)}
+            required
           />
         </div>
         {numberOfNights > 0 && (
@@ -97,12 +100,14 @@ export default function BookingWidget({ place }) {
               type="text"
               value={name}
               onChange={(ev) => setName(ev.target.value)}
+              required
             />
             <label>Phone number:</label>
             <input
               type="tel"
               value={phone}
               onChange={(ev) => setPhone(ev.target.value)}
+              required
             />
           </div>
         )}
