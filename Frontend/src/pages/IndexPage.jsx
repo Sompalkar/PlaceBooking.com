@@ -68,7 +68,7 @@ export default function IndexPage() {
               to={"/place/" + place._id}
               className=" mb-4 shadow-md rounded-xl p-4"
             >
-              <div className="bg-gray-500 mb-2  shadow-lg   w-[320px] rounded-2xl flex ">
+              <div className="bg-gray-500 mb-2  shadow-lg   rounded-2xl flex ">
                 {place.photos?.[0] && (
                   <Image
                     className="rounded-2xl object-cover aspect-square"

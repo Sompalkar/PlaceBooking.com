@@ -45,8 +45,11 @@ const __dirname = dirname(__filename);
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(cors({
     credentials: true,
-    origin: 'https://place-booking.vercel.app',
+    origin: ['http://localhost:5137',
+        'https://place-booking.vercel.app']
 }));
+
+//https://place-booking.vercel.app
 
 // Middleware to get user data from the request
 async function getUserDataFromReq(req) {
