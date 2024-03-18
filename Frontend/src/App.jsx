@@ -13,7 +13,7 @@ import PlacePage from "./pages/PlacePage";
 import BookingsPage from "./pages/BookingsPage";
 import BookingPage from "./pages/BookingPage";
 
-axios.defaults.baseURL = "https://placebooking-com.onrender.com/api";
+axios.defaults.baseURL = "https://placebooking-somnm.koyeb.app/api";
 axios.defaults.withCredentials = true;
 
 // https://placebooking-com.onrender.com
