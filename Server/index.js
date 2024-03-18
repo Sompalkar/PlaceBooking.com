@@ -19,7 +19,7 @@ import mime from 'mime'
 dotenv.config();
 
 const app = express();
-const PORT = 6000;
+const PORT = 8000;
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = process.env.JWT_SECRET || 'your_default_secret';
 
