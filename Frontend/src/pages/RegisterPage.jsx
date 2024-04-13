@@ -7,8 +7,16 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
   async function registerUser(ev) {
     ev.preventDefault();
+
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      setError("Please fill in all fields.");
+      return;
+    }
+
     try {
       await axios.post("/register", {
         name,
@@ -20,8 +28,9 @@ export default function RegisterPage() {
       setEmail("");
       setPassword("");
       navigate("/login");
-    } catch (e) {
-      throw new Error(e);
+    } catch (error) {
+      console.error("Registration Error:", error);
+      setError("An error occurred during registration.");
     }
   }
 
@@ -55,6 +64,7 @@ export default function RegisterPage() {
               Login
             </Link>
           </div>
+          {error && <div className="text-red-500 text-lg mt-2">{error}</div>}
         </form>
       </div>
     </div>

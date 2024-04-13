@@ -46,6 +46,7 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(cors({
     credentials: true,
     origin:'https://place-booking.vercel.app',
+    // origin: 'http://localhost:5173',
 }));
 
 //https://place-booking.vercel.app
@@ -80,46 +81,6 @@ async function uploadToCloudinary(path, originalFilename) {
     return result.secure_url;
 }
 
-// Routes...
-
-// app.post('/api/upload-by-link', async (req, res) => {
-//     const { link } = req.body;
-//     console.log(req.body)
-//     const newName = 'photo' + Date.now() + '.jpg';
-//       imageDownloader.image({
-//         url: link,
-//         dest: '/tmp/' + newName,
-//     });
-//     const url = await uploadToCloudinary('/tmp/' + newName, newName, mime.lookup('/tmp/' + newName));
-//     res.json(url);
-// });
-
-// app.post('/api/upload-by-link', async (req, res) => {
-//     const { link } = req.body;
-//     // console.log(req.body);
-
-//     if (!link) {
-//         return res.status(400).json({ error: 'Missing link in the request body' });
-//     }
-
-//     const newName = 'photo' + Date.now() + '.jpg';
-
-//     try {
-//         await imageDownloader.image({
-//             url: link,
-//             dest: '/tmp/' + newName,
-//         });
-
-//         const url = await uploadToCloudinary('/tmp/' + newName, newName, mime.lookup('/tmp/' + newName));
-
-//         console.log(url)
-//         res.json(url);
-
-//     } catch (error) {
-//         console.error('Error:', error);
-//         res.status(500).json({ error: 'Internal Server Error' });
-//     }
-// });
 
 
 
@@ -221,7 +182,7 @@ app.post('/api/login', async (req, res) => {
                 id: userDoc._id
             }, jwtSecret, {}, (err, token) => {
                 if (err) throw err;
-                res.cookie('token',token,{sameSite:'none',secure: true}).json(userDoc);
+                res.cookie('token', token, { sameSite: 'none', secure: true }).json(userDoc);
             });
         } else {
             res.status(422).json('pass not ok');
@@ -289,13 +250,13 @@ app.post('/api/user-places/:placeId', async (req, res) => {
 
         if (!place) {
             return res.status(404).json({ error: 'Place not found' });
-        } 
-        if (ownerIdFromBody == place.owner.toString()) { 
+        }
+        if (ownerIdFromBody == place.owner.toString()) {
 
             const deletedPlaceResponse = await Place.findByIdAndDelete(placeId);
             return res.status(200).json({ success: 'Place deleted successfully' });
         } else {
-            
+
             return res.status(403).json({ error: 'Unauthorized: Owner mismatch' });
         }
 
@@ -358,42 +319,6 @@ app.put('/api/places', async (req, res) => {
     }
 });
 
-// app.get('/api/places', async (req, res) => {
-//     res.json(await Place.find());
-// });
-
-
-
-// app.get('/api/places', async (req, res) => {
-//     try {
-//         const result = await Place.find();
-
-//         if (result.length > 0) {
-//             const modifiedResult = result.map(place => ({
-//                 _id: place._id,
-//                 owner: place.owner,
-//                 title: place.title,
-//                 address: place.address,
-//                 photos: place.photos.slice(0, 3), // Only first 3 photos
-//                 description: place.description,
-//                 perks: place.perks,
-//                 extraInfo: place.extraInfo,
-//                 checkIn: place.checkIn,
-//                 checkOut: place.checkOut,
-//                 maxGuests: place.maxGuests,
-//                 price: place.price,
-//                 __v: place.__v
-//             }));
-//             res.json(modifiedResult);
-//         } else {
-//             res.status(404).json({ message: "No places found" });
-//         }
-//     } catch (error) {
-//         console.error("Error fetching places:", error);
-//         res.status(500).json({ error: "Internal Server Error" });
-//     }
-// });
-
 
 
 
@@ -447,20 +372,51 @@ app.get('/api/places', async (req, res) => {
 
 
 
+// app.post('/api/bookings', async (req, res) => {
+//     const userData = await getUserDataFromReq(req);
+//     const {
+//         place, checkIn, checkOut, numberOfGuests, name, phone, price,
+//     } = req.body;
+//     Booking.create({
+//         place, checkIn, checkOut, numberOfGuests, name, phone, price,
+//         user: userData.id,
+//     }).then((doc) => {
+//         res.json(doc);
+//     }).catch((err) => {
+//         throw err;
+//     });
+// });
+
+
 app.post('/api/bookings', async (req, res) => {
     const userData = await getUserDataFromReq(req);
-    const {
-        place, checkIn, checkOut, numberOfGuests, name, phone, price,
-    } = req.body;
-    Booking.create({
-        place, checkIn, checkOut, numberOfGuests, name, phone, price,
-        user: userData.id,
-    }).then((doc) => {
-        res.json(doc);
-    }).catch((err) => {
-        throw err;
-    });
+    const { place, checkIn, checkOut, numberOfGuests, name,   price } = req.body;
+
+    try { 
+        const overlappingBookings = await Booking.find({
+            place,
+            $or: [
+                { checkIn: { $lte: checkOut }, checkOut: { $gte: checkIn } }, 
+                { checkIn: { $gte: checkIn, $lte: checkOut } },
+                { checkOut: { $gte: checkIn, $lte: checkOut } }
+            ]
+        });
+
+        if (overlappingBookings.length > 0) {
+            return res.status(400).json({ error: 'Property is not available for the selected dates' });
+        }
+ 
+        const booking = await Booking.create({
+            place, checkIn, checkOut, numberOfGuests, name, price, user: userData.id
+        });
+
+        res.json(booking);
+    } catch (error) {
+        console.error('Error creating booking:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
+
 
 
 
