@@ -11,7 +11,7 @@ const Footer = () => {
     <div className=" w-full    p-4 flex   flex-row  justify-around ">
         <div className="  hover:text-xl  ">
           <a
-            href="https://www.linkedin.com/in/contact-som/"
+            href="https://www.linkedin.com/"
             rel="noopener noreferrer"
             target="_blank "
             className="text-white "
@@ -23,7 +23,7 @@ const Footer = () => {
 
           <div className=" hover:text-xl   " >
           <a
-            href="https://twitter.com/PalkarSomm"
+            href="https://twitter.com/"
             rel="noopener noreferrer"
             target="_blank"
             className="text-white "
@@ -34,7 +34,7 @@ const Footer = () => {
 
         <div className="  hover:text-xl   " >  
           <a
-            href="https://github.com/Sompalkar"
+            href="https://github.com/"
             rel="noopener noreferrer"
             target="_blank"
             className="text-white "
